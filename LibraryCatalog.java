@@ -24,7 +24,7 @@ class LibraryBST {
     BookNode root = null;
 
     //Mustafa Dler (Add, Search, Count)
-    void add(int bookID, String author, String title, int year, int copies) {
+    public void add(int bookID, String author, String title, int year, int copies) {
         BookNode book = new BookNode(bookID, author, title, year, copies);
         BookNode current = root;
 
@@ -58,6 +58,24 @@ class LibraryBST {
                 }  
             }
         }
+    }
+
+    public void search (int bookID) {
+        BookNode current = root;
+
+        while (current != null) {
+            if (bookID == current.bookID) {
+                System.out.println("Found " + current.title + ", ID: " + current.bookID + ", author: " + current.author + ", year published: " + current.year + ", copies: " + current.copies);
+                return;
+            } else {
+                if (bookID < current.bookID) {
+                    current = current.left;
+                }
+                if (bookID > current.bookID) {
+                    current = current.right;
+                }
+            }
+        } System.out.println("Book not found.");
     }
     //Person 2 (Display, Range)
 
