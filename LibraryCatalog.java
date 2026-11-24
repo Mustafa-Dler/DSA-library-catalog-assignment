@@ -77,6 +77,23 @@ class LibraryBST {
             }
         } System.out.println("Book not found.");
     }
+    
+    public void count() {
+        int[] counts = new int[2];
+        travserseCount(root, counts);
+        System.out.println("Total distinct titles: " + counts[0] + ", Total copies: " + counts[1]);
+    }
+
+    private void travserseCount(BookNode book, int[] counts) {
+        if (book == null) {
+            return;
+        } else {
+            travserseCount(book.left, counts);
+            counts[0]++;
+            counts[1] += book.copies;
+            travserseCount(book.right, counts);
+        }
+    }
     //Person 2 (Display, Range)
 
     //Person 3 (Remove, Next)
