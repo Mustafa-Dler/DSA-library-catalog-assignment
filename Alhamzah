@@ -1,1 +1,87 @@
+//Alhamzah Saif 24010 Person 3 (Remove, Next)
 
+
+
+//Remove method
+    public void remove(int bookID) {
+        if (root == null) {
+            System.out.println("The library is empty, there is nothing to remove.");
+            return;
+        }
+        if (find(bookID) == null) {
+            System.out.println("Book " + bookID + " does not exist.");
+            return;
+        }
+        root = removeNode(root, bookID);
+        System.out.println("Removed book " + bookID + ".");
+    }
+
+    private BookNode removeNode(BookNode node, int bookID) {
+        if (node == null) {
+            return null;
+        }
+        if (bookID < node.bookID) {
+            node.left = removeNode(node.left, bookID);
+        } else if (bookID > node.bookID) {
+            node.right = removeNode(node.right, bookID);
+        } else {
+            if (node.left == null) {
+                return node.right;
+            }
+            if (node.right == null) {
+                return node.left;
+            }
+            
+            BookNode successor = node.right;
+            while (successor.left != null) {
+                successor = successor.left;
+            }
+            node.bookID = successor.bookID;
+            node.title = successor.title;
+            node.author = successor.author;
+            node.year = successor.year;
+            node.copies = successor.copies;
+            node.right = removeNode(node.right, successor.bookID);
+        }
+        return node;
+    }
+
+
+
+    // Next method
+    public void next(int bookID) {
+        if (root == null) {
+            System.out.println("The library is empty, there is no next book.");
+            return;
+        }
+        BookNode current = root;
+        BookNode next = null;
+        while (current != null) {
+            if (current.bookID > bookID) {
+                
+                next = current;
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+        if (next == null) {
+            System.out.println("There is no book with an ID larger than " + bookID + ".");
+        } else {
+            System.out.println("Next after " + bookID + ": [" + next.bookID + "] " + next.title + " - " + next.author + " (" + next.year + ") x" + next.copies);
+        }
+    }
+
+    private BookNode find(int bookID) {
+        BookNode current = root;
+        while (current != null) {
+            if (bookID == current.bookID) {
+                return current;
+            } else if (bookID < current.bookID) {
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+        return null;
+    }
