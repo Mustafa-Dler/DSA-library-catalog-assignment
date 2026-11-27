@@ -24,10 +24,12 @@ class LibraryBST {
     BookNode root = null;
 
     //Mustafa Dler (Add, Search, Count)
+    //Insert a new book into the BST, adds to a books existing copies if bookID already exists
     public void add(int bookID, String author, String title, int year, int copies) {
         BookNode book = new BookNode(bookID, author, title, year, copies);
         BookNode current = root;
 
+        //Checks for empty tree
         if (root == null) {
             root = book;
             System.out.println("Added the book: " + "<" + book.bookID + ">" + ", " + "<"+ book.title + ">" + ", " + "<" + book.author + ">" + ", " + "<" + book.year + ">" + ", " + "<" + book.copies + ">");
@@ -35,6 +37,7 @@ class LibraryBST {
         } else {
             while (root != null) {
                 if (book.bookID == current.bookID){
+                    //Duplicate ID found, increment copies instead of adding a new node to the tree
                     current.copies += copies;
                     return;
                 } else {
@@ -60,6 +63,7 @@ class LibraryBST {
         }
     }
 
+    //Searches the BST by the bookID and prints book details or a notfound message
     public void search (int bookID) {
         BookNode current = root;
 
@@ -75,15 +79,19 @@ class LibraryBST {
                     current = current.right;
                 }
             }
-        } System.out.println("Book not found.");
+        }
+        //Reached a null branch without finding the ID
+         System.out.println("Book not found.");
     }
     
+    //Counts total distinct titles and total copies across all books in the catalog
     public void count() {
-        int[] counts = new int[2];
+        int[] counts = new int[2]; //counts[0] = distinct titles, counts[1] = total copies
         travserseCount(root, counts);
         System.out.println("Total distinct titles: " + counts[0] + ", Total copies: " + counts[1]);
     }
 
+    //Helper function that uses inorder traversal to tally nodes and sum copies
     private void travserseCount(BookNode book, int[] counts) {
         if (book == null) {
             return;
