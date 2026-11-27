@@ -1,0 +1,64 @@
+
+//Display method
+public void display() {
+    displayInOrder(root);
+}
+
+private void displayInOrder(BookNode book) {
+    if (book == null) {
+        return;
+    }
+
+    displayInOrder(book.left);
+
+    System.out.println("ID: " + book.bookID +", Title: " + book.title + ", Author: " + book.author +", Year: " + book.year +", Copies: " + book.copies);
+
+    displayInOrder(book.right);
+}
+
+//Range method
+public void rangeSearch(int low, int high) {
+    if (low > high) {
+        System.out.println("Invalid range.");
+        return;
+    }
+
+    if (root == null) {
+        System.out.println("Library is empty.");
+        return;
+    }
+
+    System.out.print("In range [" + low + ", " + high + "]: ");
+
+    int[] found = {0};
+    rangeSearch(root, low, high, found);
+
+    if (found[0] == 0) {
+        System.out.print("No books found.");
+    }
+
+    System.out.println();
+}
+
+private void rangeSearch(BookNode book, int low, int high, int[] found) {
+    if (book == null) {
+        return;
+    }
+
+    if (book.bookID > low) {
+        rangeSearch(book.left, low, high, found);
+    }
+
+    if (book.bookID >= low && book.bookID <= high) {
+        if (found[0] > 0) {
+            System.out.print(", ");
+        }
+
+        System.out.print(book.bookID);
+        found[0]++;
+    }
+
+    if (book.bookID < high) {
+        rangeSearch(book.right, low, high, found);
+    }
+}
